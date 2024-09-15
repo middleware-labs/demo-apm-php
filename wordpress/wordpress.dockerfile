@@ -7,8 +7,7 @@ FROM wordpress:latest
 
 # Install dependencies
 RUN pecl install opentelemetry protobuf
-
-RUN  bash -c `echo "auto_prepend_file=/var/www/otel/autoload.php" | tee -a /usr/local/etc/php/php.ini && echo "extension=opentelemetry.so" | tee -a /usr/local/etc/php/php.ini && echo "extension=protobuf.so" | tee -a /usr/local/etc/php/php.ini`
+COPY otel.php.ini $PHP_INI_DIR/conf.d/.
 
 # Copy in the composer vendor files and autoload.php
 COPY --from=build /app/vendor /var/www/otel
